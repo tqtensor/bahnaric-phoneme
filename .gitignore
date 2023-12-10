@@ -1,0 +1,6 @@
+# Data files
+*.csv
+*.zip
+
+# Pycache
+__pycache__/
