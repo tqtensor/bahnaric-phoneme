@@ -4,7 +4,7 @@
 The `bahnaric-phoneme` project is driven by the objective to empower Bahnaric language speakers, fostering communication within their community and with other ethnic groups. Our overall goal is to contribute to the empowerment and connectivity of Bahnaric ethnic communities through targeted advancements in speech processing.
 
 ## Data
-The data utilized in this project originates from a broader research initiative spearheaded by Prof. [Quan Thanh Tho](qttho@hcmut.edu.vn). Please ensure to obtain his consent prior to using the data for any other purposes.
+The data utilized in this project originates from a broader research initiative spearheaded by Prof. [Quan Thanh Tho](mailto:qttho@hcmut.edu.vn). Please ensure to obtain his consent prior to using the data for any other purposes.
 
 ## Features Engineering
 1. This project leverages widely-used acoustic features, including MFCC, F0, and energy.
