@@ -4,3 +4,7 @@
 
 # Pycache
 __pycache__/
+
+# Dataset
+*.TextGrid
+*.wav
