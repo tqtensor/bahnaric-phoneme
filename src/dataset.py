@@ -125,33 +125,49 @@ def _par_features_generator(file_name: str):
 if not os.path.exists("bahnaric/features"):
     os.makedirs("bahnaric/features")
 
-file_names = sorted(labels["file_name"].values.tolist())
-file_names = [
-    file_name
-    for file_name in file_names
-    if not os.path.exists(
-        os.path.join(
-            "bahnaric/features",
-            file_name.split("/")[-1].replace("TextGrid", "parquet"),
+# Download pre-computed features
+compute_features = False
+
+if compute_features:
+    file_names = sorted(labels["file_name"].values.tolist())
+    file_names = [
+        file_name
+        for file_name in file_names
+        if not os.path.exists(
+            os.path.join(
+                "bahnaric/features",
+                file_name.split("/")[-1].replace("TextGrid", "parquet"),
+            )
         )
+    ]
+    file_names = [
+        file_name
+        for file_name in file_names
+        if os.path.exists(file_name.replace("TextGrid", "wav"))
+    ]
+
+    # Run _par_features_generator in parallel
+    num_cpus = mp.cpu_count() - 2
+    pool = multiprocessing.Pool(num_cpus)
+
+    # Use tqdm to show progress
+    with tqdm(total=len(file_names)) as pbar:
+
+        def update_progress(*args):
+            pbar.update()
+
+        pool.map_async(_par_features_generator, file_names, callback=update_progress)
+        pool.close()
+        pool.join()
+else:
+    gdown.download(
+        "https://drive.google.com/uc?id=1GvuOT_8cE2zUBqObHGumN9IGu3PZouvk",
+        "features.zip",
     )
-]
-file_names = [
-    file_name
-    for file_name in file_names
-    if os.path.exists(file_name.replace("TextGrid", "wav"))
-]
 
-# Run _par_features_generator in parallel
-num_cpus = mp.cpu_count() - 2
-pool = multiprocessing.Pool(num_cpus)
-
-# Use tqdm to show progress
-with tqdm(total=len(file_names)) as pbar:
-
-    def update_progress(*args):
-        pbar.update()
-
-    pool.map_async(_par_features_generator, file_names, callback=update_progress)
-    pool.close()
-    pool.join()
+    # Unzip the ZIP file
+    with zipfile.ZipFile("features.zip", "r") as zip_file:
+        zip_file.extractall()
+    shutil.rmtree("bahnaric/features")
+    shutil.move("features", "bahnaric")
+    os.remove("features.zip")
