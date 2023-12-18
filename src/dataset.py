@@ -114,7 +114,6 @@ def _par_features_generator(file_name: str):
         feature_dfs.append(features)
 
     features = pd.concat(feature_dfs, axis=1)
-    1 / 0
     features.to_parquet(
         os.path.join(
             "bahnaric/features",
