@@ -17,3 +17,7 @@ The data utilized in this project originates from a broader research initiative 
 2. Generate the features by running `python3 src/dataset.py`.
 3. Train the model by running `python3 src/train.py`.
 4. Evaluate the model by running `python3 src/evaluate.py`.
+
+### For Windows Users
+1. Install docker desktop for windows. [guide](https://docs.docker.com/desktop/install/windows-install/)
+2. Choose `Rebuild and Reopen in Container` in the popup window.
